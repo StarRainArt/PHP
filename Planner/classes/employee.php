@@ -1,5 +1,7 @@
 <?php
 
+require_once '../db_connect/dbconfig.php';
+
 class Employee{
 
     public $voornaam;
