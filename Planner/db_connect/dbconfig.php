@@ -1,22 +1,27 @@
 <?php
 require_once '../../env.php';
 
-$dsn = "mysql:host=$host;dbname=$dbname;charset=utf8mb4";
-class dbconfig {
-    public $pdo;
-    public function __construct($dsn, $user, $pass) {
-        $this->conn($dsn, $user, $pass);
+class DbConfig {
+    protected $conn;
+    protected $host;
+    protected $user;
+    protected $pass;
+    protected $dbname;
+
+    public function __construct($host, $user, $pass, $dbname) {
+        $this->host = $host;
+        $this->user = $user;
+        $this->pass = $pass;
+        $this->dbname = $dbname;
     }
-    private function conn($dsn, $user, $pass) {
-        $this->pdo = null;
+
+    public function connect() {
         try {
-            $this->pdo = new PDO($dsn, $user, $pass);
-            $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $conn = new PDO("mysql:host={$this->host};dbname={$this->dbname}", $this->user, $this->pass);
+            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $this->conn = $conn;
         } catch (PDOException $e) {
-            die("Connection failed: " . $e->getMessage());
+            die($e->getMessage());
         }
-    }
-    public function getConnection() {
-        return $this->pdo;
     }
 }
