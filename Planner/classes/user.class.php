@@ -13,7 +13,7 @@ class User {
             $this->password = password_hash($data["password"], PASSWORD_DEFAULT);
 
             $sql = "INSERT INTO users (username, password) VALUES (:username, :password)";
-
+            
             $stmt = $db->conn->prepare($sql);
             $stmt->bindParam(':username', $this->username);
             $stmt->bindParam(':password', $this->password);
@@ -75,6 +75,24 @@ class User {
         }
         catch (Exception $e) {
             return [];
+        }
+    }
+
+    public function readProfile($db) {
+        try {
+            if (!isset($_SESSION["loggedin"])) {
+                throw new Exception("You are not logged in");
+            }
+
+            $sql = "SELECT * FROM users WHERE id = :id";
+            $stmt = $db->conn->prepare($sql);
+            $stmt->bindParam(":id", $_SESSION["id"]);
+            $stmt->execute();
+
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        }
+        catch (Exception $e) {
+            return $e->getMessage();
         }
     }
 
