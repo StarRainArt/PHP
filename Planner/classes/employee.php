@@ -17,7 +17,7 @@ class Employee{
         $this->email = $email;
     }
 
-    function get_customer(){
+    function get_employee(){
         return $this->voornaam;
         return $this-> achternaam;
         return $this->email;
