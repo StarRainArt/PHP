@@ -11,8 +11,10 @@
 include '../db_connect/dbconfig.php';
 include '../classes/employee.php';
 
-$employee = new Employee($db, 1);
-echo $employee->get_employee();
+$employee1 = new Employee($db, 1);
+$employee2 = new Employee($db, 2);
+echo $employee1->get_employee();
+echo $employee2->get_employee();
 ?>
 
 </body>
