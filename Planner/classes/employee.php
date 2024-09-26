@@ -20,8 +20,8 @@ class Employee{
     function get_all_employees(){
         try{
             $stmt = $this->db->prepare("SELECT voornaam, achternaam, email, created_at, updated_at FROM medewerkers");
-            $stmt->execute;
-            return $stmt->fetchAll(PDO:FETCH_ASSOC);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
         }   catch (PDOException $e){
             echo "Error: " . $e->getMessage();
         }
