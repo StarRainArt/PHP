@@ -1,6 +1,6 @@
 <?php
 
-require_once '../db_connect/dbconfig.php';
+include '../db_connect/dbconfig.php';
 
 class Employee{
     
@@ -15,6 +15,12 @@ class Employee{
         $this->voornaam = $voornaam;
         $this->achternaam = $achternaam;
         $this->email = $email;
+    }
+
+    function get_customer(){
+        return $this->voornaam;
+        return $this-> achternaam;
+        return $this->email;
     }
 }
 
