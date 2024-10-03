@@ -8,36 +8,42 @@ $db->connect();
 class User {
     public $username;
     public $password;
+    protected $db;  // Make $db a class property
 
-    public function addUser($data, $db) {
+    // Constructor to inject the $db object
+    public function __construct($db) {
+        $this->db = $db;
+    }
+
+    public function addUser($data) {
         try {
             $this->username = $data["username"];
             $this->password = password_hash($data["password"], PASSWORD_DEFAULT);
 
             $sql = "INSERT INTO users (username, password) VALUES (:username, :password)";
-            
-            $stmt = $db->conn->prepare($sql);
+
+            $stmt = $this->db->getConnection()->prepare($sql);  // Use $this->db->getConnection()
             $stmt->bindParam(':username', $this->username);
             $stmt->bindParam(':password', $this->password);
 
-            if(!$stmt->execute()) {
+            if (!$stmt->execute()) {
                 throw new Exception("Er ging iets mis met het toevoegen van de user");
             }
             return "{$this->username} is toegevoegd";
         }
-        catch(Exception $e) {
+        catch (Exception $e) {
             return $e->getMessage();
         }
     }
 
-    public function loginUser($data, $db) {
+    public function loginUser($data) {
         try {
             $this->username = $data["username"];
             $this->password = $data["password"];
 
             $sql = "SELECT * FROM users WHERE username = :username";
 
-            $stmt = $db->conn->prepare($sql);
+            $stmt = $this->db->getConnection()->prepare($sql);  // Use $this->db->getConnection()
             $stmt->bindParam(":username", $this->username);
             $stmt->execute();
 
@@ -68,10 +74,10 @@ class User {
         return isset($_SESSION["isadmin"]) && $_SESSION["isadmin"] === true;
     }
 
-    public function getAllUsers($db) {
+    public function getAllUsers() {
         try {
             $sql = "SELECT * FROM users";
-            $stmt = $db->conn->prepare($sql);
+            $stmt = $this->db->getConnection()->prepare($sql);  // Use $this->db->getConnection()
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
@@ -80,14 +86,14 @@ class User {
         }
     }
 
-    public function readProfile($db) {
+    public function readProfile() {
         try {
             if (!isset($_SESSION["loggedin"])) {
                 throw new Exception("You are not logged in");
             }
 
             $sql = "SELECT * FROM users WHERE id = :id";
-            $stmt = $db->conn->prepare($sql);
+            $stmt = $this->db->getConnection()->prepare($sql);  // Use $this->db->getConnection()
             $stmt->bindParam(":id", $_SESSION["id"]);
             $stmt->execute();
 
@@ -98,15 +104,29 @@ class User {
         }
     }
 
-    public function deleteUser($id, $db) {
+    public function deleteUser($id) {
         try {
             $sql = "DELETE FROM users WHERE id = :id";
-            $stmt = $db->conn->prepare($sql);
+            $stmt = $this->db->getConnection()->prepare($sql);  // Use $this->db->getConnection()
             $stmt->bindParam(":id", $id);
             return $stmt->execute();
         }
         catch (Exception $e) {
             return false;
+        }
+    }
+
+    public function logoutUser() {
+        if (session_status() === PHP_SESSION_ACTIVE) {
+            // Unset all session variables
+            $_SESSION = [];
+    
+            // Destroy the session
+            session_destroy();
+    
+            // Optionally redirect the user to the login page or another page
+            header("Location: ../pages/inloggen.php");
+            exit();
         }
     }
 }

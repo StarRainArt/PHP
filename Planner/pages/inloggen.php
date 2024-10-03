@@ -2,8 +2,11 @@
 require_once "../classes/user.class.php";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $user = new User();
-    $response = $user->loginUser(["username"=>$_POST["username"]], $db);
+    $user = new User($db);
+    $response = $user->loginUser([
+        "username" => $_POST["username"],
+        "password" => $_POST["password"]
+    ]);
     echo $response;
 }
 ?>
@@ -14,7 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inloggen - Plann(t)er</title>
-    <link rel="stylesheet" type="text/css" href="../../css/style.css">
+    <link rel="stylesheet" type="text/css" href="../css/style.css">
 </head>
 <body>
     <main>

@@ -24,4 +24,8 @@ class DbConfig {
             die($e->getMessage());
         }
     }
+
+    public function getConnection() {
+        return $this->conn;
+    }
 }

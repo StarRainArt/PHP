@@ -7,8 +7,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "<p>De wachtwoorden zijn niet hetzelfde, probeer opnieuw.</p>";
     }
     else {
-        $user = new User();
-        $response = $user->addUser(["username"=>$_POST["username"], "password" => $_POST["password"]], $db);
+        $user = new User($db);
+        $response = $user->addUser(["username"=>$_POST["username"], "password" => $_POST["password"]]);
         header ("Location: inloggen.php");
     }
 }
@@ -21,7 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registreren - Plann(t)er</title>
-    <link rel="stylesheet" type="text/css" href="../../css/style.css">
+    <link rel="stylesheet" type="text/css" href="../css/style.css">
 </head>
 <body>
     <form action="registreren.php" method="POST">

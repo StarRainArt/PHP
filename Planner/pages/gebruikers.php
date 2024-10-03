@@ -1,24 +1,24 @@
 <?php
 require_once "../classes/user.class.php";
 
-$user = new User();
+$user = new User($db);
 
 if (!$user->isLoggedIn()) {
     header("Location: inloggen.php");
 }
 
 if (!$user->isAdmin()) {
-    header("Location: ../index.php");
+    header("Location: index.php");
 }
 
 if (isset($_GET['delete_id'])) {
     $delete_id = $_GET['delete_id'];
-    $user->deleteUser($delete_id, $db);
+    $user->deleteUser($delete_id);
     header('Location: gebruikers.php');
     exit();
 }
 
-$users = $user->getAllUsers($db);
+$users = $user->getAllUsers();
 ?>
 
 <!DOCTYPE html>
@@ -27,7 +27,7 @@ $users = $user->getAllUsers($db);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gebruikers - Plann(t)er</title>
-    <link rel="stylesheet" type="text/css" href="../../css/style.css">
+    <link rel="stylesheet" type="text/css" href="../css/style.css">
 </head>
 <body>
     <main>
