@@ -20,6 +20,8 @@ $profile = $user->readProfile($db);
     <link rel="stylesheet" type="text/css" href="../../css/style.css">
 </head>
 <body>
-    
+    <main>
+        <p>Username: <?php $profile["username"]?></p>
+    </main>
 </body>
 </html>

@@ -1,5 +1,7 @@
 <?php
 session_start();
+require_once "../db_connect/dbconfig.php";
+
 $db = new DbConfig($host, $user, $pass, $dbname);
 $db->connect();
 
