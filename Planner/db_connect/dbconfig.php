@@ -1,13 +1,16 @@
 <?php
 require_once '../../env.php';
 
-$dsn = "mysql:host=$host;dbname=$dbname;charset=utf8mb4";
+
 class dbconfig {
-    public $pdo;
+    private $pdo;
     public function __construct($dsn, $user, $pass) {
         $this->conn($dsn, $user, $pass);
     }
-    private function conn($dsn, $user, $pass) {
+    private function conn() {
+        $dsn = "mysql:host=localhost:3036;dbname=project;charset=utf8mb4";
+        $user = "root";
+        $pass = "password";
         $this->pdo = null;
         try {
             $this->pdo = new PDO($dsn, $user, $pass);

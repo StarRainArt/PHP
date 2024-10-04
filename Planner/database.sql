@@ -1,0 +1,31 @@
+CREATE DATABASE IF NOT EXISTS planner;
+USE planner;
+DROP TABLE IF EXISTS users;
+CREATE TABLE users (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    username VARCHAR(60) UNIQUE NOT NULL,
+    password_hash VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL,
+    beheerder BOOLEAN NOT NULL
+);
+DROP TABLE IF EXISTS locatie;
+CREATE TABLE locatie (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(60) NOT NULL
+);
+DROP TABLE IF EXISTS gebeurtenis;
+CREATE TABLE planning (
+    id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    name VARCHAR(60) NOT NULL,
+    startTime DATETIME NOT NULL,
+    locatie INT NOT NULL,
+    FOREIGN KEY (locatie) REFERENCES locatie(id)
+);
+DROP TABLE IF EXISTS afspraken;
+CREATE TABLE afspraken (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    user INT NOT NULL,
+    gebeurtenis INT NOT NULL,
+    FOREIGN KEY (gebeurtenis) REFERENCES gebeurtenis(id),
+    FOREIGN KEY (user) REFERENCES users(id)
+);
