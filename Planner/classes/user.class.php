@@ -22,7 +22,7 @@ class User {
 
             $sql = "INSERT INTO users (username, password) VALUES (:username, :password)";
 
-            $stmt = $this->db->getConnection()->prepare($sql);  // Use $this->db->getConnection()
+            $stmt = $this->db->getConnection()->prepare($sql);
             $stmt->bindParam(':username', $this->username);
             $stmt->bindParam(':password', $this->password);
 
@@ -43,7 +43,7 @@ class User {
 
             $sql = "SELECT * FROM users WHERE username = :username";
 
-            $stmt = $this->db->getConnection()->prepare($sql);  // Use $this->db->getConnection()
+            $stmt = $this->db->getConnection()->prepare($sql);
             $stmt->bindParam(":username", $this->username);
             $stmt->execute();
 
@@ -77,7 +77,7 @@ class User {
     public function getAllUsers() {
         try {
             $sql = "SELECT * FROM users";
-            $stmt = $this->db->getConnection()->prepare($sql);  // Use $this->db->getConnection()
+            $stmt = $this->db->getConnection()->prepare($sql);
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
@@ -93,7 +93,7 @@ class User {
             }
 
             $sql = "SELECT * FROM users WHERE id = :id";
-            $stmt = $this->db->getConnection()->prepare($sql);  // Use $this->db->getConnection()
+            $stmt = $this->db->getConnection()->prepare($sql);
             $stmt->bindParam(":id", $_SESSION["id"]);
             $stmt->execute();
 
@@ -107,7 +107,7 @@ class User {
     public function deleteUser($id) {
         try {
             $sql = "DELETE FROM users WHERE id = :id";
-            $stmt = $this->db->getConnection()->prepare($sql);  // Use $this->db->getConnection()
+            $stmt = $this->db->getConnection()->prepare($sql);
             $stmt->bindParam(":id", $id);
             return $stmt->execute();
         }
@@ -118,13 +118,9 @@ class User {
 
     public function logoutUser() {
         if (session_status() === PHP_SESSION_ACTIVE) {
-            // Unset all session variables
             $_SESSION = [];
-    
-            // Destroy the session
             session_destroy();
     
-            // Optionally redirect the user to the login page or another page
             header("Location: ../pages/inloggen.php");
             exit();
         }

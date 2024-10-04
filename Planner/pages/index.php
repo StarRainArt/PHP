@@ -19,13 +19,19 @@ if (!$user->isLoggedIn()) {
 <body>
     <header>
         <nav>
-            <a href="logout.php">Log Out</a>
-            <a href="gebruikers.php">Gebruikers</a>
+            <?php if (session_status() === PHP_SESSION_ACTIVE): ?>
+                <a href="logout.php">Log Out</a>
+            <?php endif; ?>
+            <?php if ($user->isAdmin()): ?>
+                <a href="gebruikers.php">Gebruikers</a>
+            <?php endif; ?>
             <a href="profiel.php">Profiel</a>
         </nav>
     </header>
     <main>
-    <p><?php echo $_SESSION["id"]?> - <?php echo $_SESSION["username"]?> - <?php echo $_SESSION["loggedin"]?> - <?php echo $_SESSION["isadmin"]?></p>
+        <?php if ($user->isLoggedIn()): ?>
+            <p><?php echo $_SESSION["id"]?> - <?php echo $_SESSION["username"]?> - <?php echo $_SESSION["loggedin"]?> - <?php echo $_SESSION["isadmin"]?></p>
+        <?php endif; ?>
     </main>
 </body>
 </html>
