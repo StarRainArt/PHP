@@ -108,7 +108,7 @@ class Task {
             return false;
         }
     }
-    
+
     public function deleteTask($id) {
         try {
             $sql = "DELETE FROM tasks WHERE id = :id";
@@ -119,6 +119,43 @@ class Task {
         }
         catch (Exception $e) {
             return false;
+        }
+    }
+
+    public function getStatuses() {
+        try {
+            $sql = "SELECT * FROM status";
+            $stmt = $this->db->getConnection()->prepare($sql);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (Exception $e) {
+            return [];
+        }
+    }
+
+    public function updateTaskStatus($task_id, $new_status) {
+        try {
+            $sql = "UPDATE tasks SET status = :status WHERE id = :task_id";
+            $stmt = $this->db->getConnection()->prepare($sql);
+            $stmt->bindParam(':status', $new_status);
+            $stmt->bindParam(':task_id', $task_id);
+            if (!$stmt->execute()) {
+                throw new Exception("Er ging iets mis met het bijwerken van de status");
+            }
+            return true;
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+    }
+
+    public function getPriorities() {
+        try {
+            $sql = "SELECT * FROM priority";
+            $stmt = $this->db->getConnection()->prepare($sql);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (Exception $e) {
+            return [];
         }
     }
 }
