@@ -18,7 +18,7 @@ class Category {
             $this->name = $data["name"];
             $this->user_id = $data["user_id"];
 
-            $sql = "INSERT INTO events (name, user_id) VALUES (:name, :user_id)";
+            $sql = "INSERT INTO categories (name, user_id) VALUES (:name, :user_id)";
 
             $stmt = $this->db->getConnection()->prepare($sql);
             $stmt->bindParam("name", $this->name);
@@ -44,6 +44,20 @@ class Category {
             $stmt->bindParam("user_id", $this->user_id);
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+        catch (Exception $e) {
+            return [];
+        }
+    }
+
+    public function showCategory($id) {
+        try {
+            $sql = "SELECT * FROM categories WHERE id = :id";
+
+            $stmt = $this->db->getConnection()->prepare($sql);
+            $stmt->bindParam("id", $id);
+            $stmt->execute();
+            return $stmt->fetch(PDO::FETCH_ASSOC);
         }
         catch (Exception $e) {
             return [];

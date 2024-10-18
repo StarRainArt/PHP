@@ -34,6 +34,13 @@ $statuses = $task->getStatuses();
             <a href="tasks.php">Tasks</a>
             <a href="events.php">Events</a>
             <a href="categories.php">Categories</a>
+            <?php if (session_status() === PHP_SESSION_ACTIVE): ?>
+                <a href="logout.php">Log Out</a>
+            <?php endif; ?>
+            <?php if ($user->isAdmin()): ?>
+                <a href="gebruikers.php">Gebruikers</a>
+            <?php endif; ?>
+            <a href="profiel.php">Profiel</a>
         </nav>
     </header>
     <main>
@@ -43,7 +50,9 @@ $statuses = $task->getStatuses();
             <?php if (count($tasks) > 0): ?>
                 <?php foreach ($tasks as $task): ?>
                     <article class="task">
-                        <h3><?php echo htmlspecialchars($task["title"]); ?></h3>
+                        <a href="taskById.php?id=<?php echo $task["id"] ?>">
+                            <h3><?php echo htmlspecialchars($task["title"]); ?></h3>
+                        </a>
                         <form action="tasks.php" method="POST">
                             <?php $selected = $task["status"];?>
                             <select name="status" id="status<?php echo $task["id"]; ?>" onchange="this.form.submit()">

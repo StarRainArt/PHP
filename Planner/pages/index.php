@@ -19,6 +19,9 @@ if (!$user->isLoggedIn()) {
 <body>
     <header>
         <nav>
+            <a href="tasks.php">Tasks</a>
+            <a href="events.php">Events</a>
+            <a href="categories.php">Categories</a>
             <?php if (session_status() === PHP_SESSION_ACTIVE): ?>
                 <a href="logout.php">Log Out</a>
             <?php endif; ?>

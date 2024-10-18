@@ -41,13 +41,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 <body>
     <header>
-        <nav></nav>
+        <nav>
+            <a href="tasks.php">Tasks</a>
+            <a href="events.php">Events</a>
+            <a href="categories.php">Categories</a>
+            <?php if (session_status() === PHP_SESSION_ACTIVE): ?>
+                <a href="logout.php">Log Out</a>
+            <?php endif; ?>
+            <?php if ($user->isAdmin()): ?>
+                <a href="gebruikers.php">Gebruikers</a>
+            <?php endif; ?>
+            <a href="profiel.php">Profiel</a>
+        </nav>
     </header>
     <main>
         <h1>Add a New Task</h1>
-        <?php if (isset($error_message)): ?>
-            <p style="color: red;"><?php echo htmlspecialchars($error_message); ?></p>
-        <?php endif; ?>
         <form action="taskAdd.php" method="POST">
             <label for="title">Title:</label>
             <input type="text" name="title" id="title" required>
